@@ -344,7 +344,7 @@ class CouchbaseDataStore(AbstractCouchDataStore):
 
         # Check for docs not found
         notfound_list = ['Object with id %s does not exist.' % str(row.key)
-                         for row in rows if row.doc is None]
+                         for row in rows if row['doc'] is None]
         if notfound_list:
             raise NotFound("\n".join(notfound_list))
 
@@ -469,8 +469,12 @@ class CouchbaseDataStore(AbstractCouchDataStore):
 
     def delete_doc_mult(self, object_ids, datastore_name=None):
         ds, datastore_name = self._get_datastore(datastore_name)
+        for oid in object_ids:
+            try:
+                ds.delete(oid)
+            except Exception:
+                log.warn("Could not delete %s" % oid)
         # Todo find other way to do bulk delete
-        return [ds.delete(id) for id in object_ids]
 
     def delete_attachment(self, doc, attachment_name, datastore_name=""):
         """
