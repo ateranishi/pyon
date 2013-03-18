@@ -9,16 +9,19 @@ import gevent
 from gevent import sleep
 import requests
 
-import couchbase.client
-import couchbase.rest_client
-# Monkey patching
-couchbase.client.json = json
-couchbase.rest_client.json = json
+try:
+    import couchbase.client
+    import couchbase.rest_client
+    # Monkey patching
+    couchbase.client.json = json
+    couchbase.rest_client.json = json
 
-from couchbase.client import Couchbase, Bucket
-from couchbase.rest_client import RestHelper
-from couchbase.exception import BucketCreationException, BucketUnavailableException
-from couchbase.exception import MemcachedError
+    from couchbase.client import Couchbase, Bucket
+    from couchbase.rest_client import RestHelper
+    from couchbase.exception import BucketCreationException, BucketUnavailableException
+    from couchbase.exception import MemcachedError
+except Exception:
+    print "Couchbase not available!"
 
 from pyon.datastore.couchdb.couch_common import AbstractCouchDataStore
 from pyon.datastore.couchbase.views import get_couch_view_designs
