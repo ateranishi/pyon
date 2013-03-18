@@ -48,7 +48,11 @@ class InterfaceAdmin:
         datastores = [
             ('resources', 'RESOURCES'),
             ('events', 'EVENTS'),
-            ('state', 'STATE')]
+            ('state', 'STATE'),
+            ('objects', 'OBJECTS'),
+            ('datasets', None),
+            ('filesystem', 'FILESYSTEM'),
+        ]
         count = 0
         for local_dsn, profile in datastores:
             if not ds.datastore_exists(local_dsn):
