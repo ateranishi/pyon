@@ -45,11 +45,14 @@ class InterfaceAdmin:
         Main entry point into creating core datastores
         """
         ds = DatastoreFactory.get_datastore(config=self.config, scope=self.sysname, variant=DatastoreFactory.DS_BASE)
-        datastores = ['resources','events']
+        datastores = [
+            ('resources', 'RESOURCES'),
+            ('events', 'EVENTS'),
+            ('state', 'STATE')]
         count = 0
-        for local_dsn in datastores:
+        for local_dsn, profile in datastores:
             if not ds.datastore_exists(local_dsn):
-                ds.create_datastore(local_dsn)
+                ds.create_datastore(datastore_name=local_dsn, profile=profile)
                 count += 1
         print "store_interfaces: Created %s datastores..." % count
 
